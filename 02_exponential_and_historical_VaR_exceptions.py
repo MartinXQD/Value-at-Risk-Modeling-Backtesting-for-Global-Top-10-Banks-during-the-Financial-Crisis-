@@ -34,3 +34,17 @@ his_return_data["Historical_VaR"] = VaR_2
 print (his_return_data.head())
 print (his_return_data.tail())
 print(his_return_data.shape)
+
+
+VaR_2015_17 = his_return_data[[ "Return","Exponential_VaR", "Historical_VaR"]].loc["2015-01-01":"2017-12-19"].copy()
+print (VaR_2015_17.head())
+print (VaR_2015_17.tail())
+print(VaR_2015_17.shape)
+
+
+VaR_2015_17["Exceptions_ex"] = (VaR_2015_17["Return"] < (-VaR_2015_17["Exponential_VaR"])).astype(int)
+VaR_2015_17["Exceptions_his"] = (VaR_2015_17["Return"] < (-VaR_2015_17["Historical_VaR"])).astype(int)
+x1 = VaR_2015_17["Exceptions_ex"].sum()
+x2 = VaR_2015_17["Exceptions_his"].sum()
+print (f"There are {x2} trading days that loss more than VaR under Historical methods\n")
+print (f"There are {x1} trading days that loss more than VaR under Exponential methods \n")
